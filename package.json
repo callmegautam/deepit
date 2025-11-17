@@ -2,9 +2,15 @@
   "name": "deepit",
   "version": "0.1.0",
   "description": "A pragmatic deep-clone library for JavaScript/TypeScript — preserves prototypes, descriptors, Maps, Sets, circular refs and optionally clones functions.",
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
