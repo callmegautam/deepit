@@ -3,9 +3,11 @@ export function cloneArray(
   walker: (v: any, d?: number) => any,
   seen: WeakMap<any, any>,
   depth = 0,
+  skipKeys: string[] = [],
 ) {
   const out: any[] = [];
   seen.set(arr, out);
+
   for (let i = 0; i < arr.length; i++) {
     out[i] = walker(arr[i], depth + 1);
   }
@@ -17,6 +19,7 @@ export function cloneObjectWithDescriptor(
   walker: (v: any, d?: number) => any,
   seen: WeakMap<any, any>,
   depth = 0,
+  skipKeys: string[] = [],
 ) {
   const proto = Object.getPrototypeOf(obj);
   const out = Object.create(proto);
@@ -25,6 +28,10 @@ export function cloneObjectWithDescriptor(
 
   for (const key of Reflect.ownKeys(obj)) {
     const desc = Object.getOwnPropertyDescriptor(obj, key as PropertyKey)!;
+
+    if (skipKeys.includes(key.toString())) {
+      continue;
+    }
 
     // only clone value properties; getters/setters stay as-is
     if ('value' in desc) {

@@ -7,13 +7,16 @@ import {
   cloneArrayBuffer,
   cloneTypedArray,
 } from './handlers/collection';
+import { skip } from 'node:test';
 
 export type CloneOptions = {
   maxDepth?: number | null;
+  skipKeys?: string[];
 };
 
 const DEFAULTS: Required<CloneOptions> = {
   maxDepth: null,
+  skipKeys: [],
 };
 
 function getTag(value: unknown): string {
@@ -46,7 +49,7 @@ export function strictClone<T>(value: T, opts?: CloneOptions): T {
       case 'Array':
         return cloneArray(v, _clone, seen, depth);
       case 'Object':
-        return cloneObjectWithDescriptor(v, _clone, seen, depth);
+        return cloneObjectWithDescriptor(v, _clone, seen, depth, options.skipKeys);
       case 'Date':
         return cloneDate(v);
       case 'RegExp':
@@ -73,7 +76,7 @@ export function strictClone<T>(value: T, opts?: CloneOptions): T {
         err.stack = v.stack;
         return err;
       default:
-        return cloneObjectWithDescriptor(v, _clone, seen, depth);
+        return cloneObjectWithDescriptor(v, _clone, seen, depth, options.skipKeys);
     }
   }
 

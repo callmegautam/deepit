@@ -5,3 +5,4 @@ dist
 .vscode
 coverage
 demo.txt
+test.js
