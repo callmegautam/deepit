@@ -84,12 +84,15 @@ Optional configuration.
 ```ts
 interface CloneOptions {
   maxDepth?: number | null;
+  skipKeys?: string[];
 }
 ```
 
 - `maxDepth`: Controls recursion depth.
   When `null` (default), there is no limit.
   When set to a number, the clone operation will throw if it exceeds that depth.
+- `skipKeys`: An array of property names to omit from the cloned result.
+  Useful for removing sensitive or unnecessary data while cloning deeply.
 
 #### Return value
 
